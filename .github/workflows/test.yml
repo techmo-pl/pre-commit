@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+
+jobs:
+  bats:
+    name: Shell tests (bats)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats-core
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y bats
+
+      - name: Run install.sh tests
+        run: bats tests/install.bats
+
+      - name: Run run.sh tests
+        run: bats tests/run.bats
