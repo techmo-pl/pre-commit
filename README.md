@@ -139,3 +139,33 @@ Both hooks are provided via [pocc/pre-commit-hooks](https://github.com/pocc/pre-
 
 [pre-commit](https://pre-commit.com/)
 [ruff](https://docs.astral.sh/ruff/)
+
+## License
+
+The scripts and configuration files in this repository (`install.sh`, `run.sh`,
+`.pre-commit-config.yaml`, etc.) are released under the [MIT License](LICENSE).
+
+### Third-party tools
+
+The default configuration references several external tools that are downloaded
+and run by pre-commit in **isolated environments on the user's machine**. They
+are not bundled or redistributed here. Their licenses are listed for reference:
+
+| Tool | License |
+|------|---------|
+| [pre-commit](https://github.com/pre-commit/pre-commit) | MIT |
+| [pre-commit-hooks](https://github.com/pre-commit/pre-commit-hooks) | MIT |
+| [ruff](https://github.com/astral-sh/ruff) | MIT |
+| [mypy](https://github.com/python/mypy) | MIT |
+| [gitleaks](https://github.com/gitleaks/gitleaks) | MIT |
+| [codespell](https://github.com/codespell-project/codespell) | GPL-2.0 |
+| [ShellCheck](https://github.com/koalaman/shellcheck) | GPL-3.0 |
+| [shfmt](https://github.com/mvdan/sh) | BSD-3-Clause |
+| [hadolint](https://github.com/hadolint/hadolint) | GPL-3.0 |
+| [clang-format](https://clang.llvm.org/docs/ClangFormat.html) | Apache-2.0 |
+| [cppcheck](https://cppcheck.sourceforge.io/) | GPL-3.0 |
+
+Using a GPL-licensed tool as an external process does not affect the license of
+code that invokes it. The GPL copyleft applies to distribution of derivative
+works, not to runtime invocation. See the
+[GNU FAQ](https://www.gnu.org/licenses/gpl-faq.html#MereAggregation) for details.
