@@ -1,0 +1,124 @@
+# The generic Techmo's pre-commit hooks configuration — Python 3.8 variant.
+#
+# Used automatically by install.sh when the runtime Python is 3.8.
+# Differences from .pre-commit-config.yaml:
+#   - mirrors-mypy pinned to v1.14.0 (last release supporting Python 3.8;
+#     mypy 1.15.0 raised Requires-Python to >=3.9)
+#   - ruff gets --target-version py38 so UP rules don't suggest py39+ syntax
+#
+# See https://pre-commit.com for more information.
+# See https://pre-commit.com/hooks.html for more hooks.
+
+fail_fast: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-illegal-windows-names
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: \.patch$
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: no-commit-to-branch
+        args: [--branch, master]
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+        exclude: \.patch$
+        args:
+          - --markdown-linebreak-ext=md
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.1
+    hooks:
+      - id: ruff-check
+        args: [--fix, --select, "E,W,F,I,S,UP,B", --extend-ignore, "S101,S603,S607", --line-length, "160", --target-version, "py38"]
+      - id: ruff-format
+        args: [--line-length, "160", --target-version, "py38"]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.0
+    hooks:
+      - id: mypy
+        args:
+          [
+            --strict,
+            --ignore-missing-imports,
+            --check-untyped-defs,
+            --show-error-codes,
+          ]
+
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
+    hooks:
+      - id: clang-format
+        additional_dependencies: [clang-format]
+        args:
+          - --style=file
+          - --fallback-style=none
+      - id: cppcheck
+        additional_dependencies: [cppcheck]
+        args:
+          - --std=c++17
+          - --language=c++
+          - --enable=all
+          - --error-exitcode=1
+          - --inline-suppr
+          - --suppress=missingInclude
+          - --suppress=missingIncludeSystem
+          - --suppress=unusedFunction
+          - --suppress=unmatchedSuppression
+
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.14.0
+    hooks:
+      - id: hadolint
+        args:
+          - --ignore=DL3005  # apt-get upgrade is sometimes necessary in base-image builds
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/maxwinterstein/shfmt-py
+    rev: v3.12.0.1
+    hooks:
+      - id: shfmt
+        name: shfmt
+        entry: shfmt
+        language: python
+        args:
+          - -l # list files whose formatting differs from shfmt's
+          - -d # error with a diff when the formatting differs
+          - -i # indentation
+          - "4" # 4 spaces
+          - -ci # switch cases will be indented
+          - -fn # function opening braces are placed on a separate line
+          - -bn # binary ops like && and | may start a line
+          - -sr # redirect operators will be followed by a space
+          - -s # simplify the code
+          - -w # write result to file instead of stdout
+        types: [shell]
+        require_serial: true
+        exclude_types: [bats]

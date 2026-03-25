@@ -1,0 +1,13 @@
+.pre-commit-config.path
+.venv/
+.vscode/
+
+# beads-rust tracker storage
+.beads/
+
+# Ralph TUI (not part of this repo)
+.ralph-tui/
+ralph-tui.md
+Makefile
+scripts/beads_bootstrap.sh
+scripts/install_br.sh
